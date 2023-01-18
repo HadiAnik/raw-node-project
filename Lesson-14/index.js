@@ -1,61 +1,26 @@
 /*
- * Title : URL checker up or down URL
- * Description : this is sample handler path
+ * Title : UInitial Project
+ * Description : Initial file to start the node server and workers
  * Author : Hadiuzzaman
- * Date : 12/01/2023
+ * Date : 18/01/2023
  */
 
 //Dependencies
-const http = require("http");
-const { handleReqRes } = require("./helpers/handlerReqRes");
-const environmentToExport = require("./helpers/environment"); //environmentToExport
-const { sendTwilioSms } = require("./helpers/notification");
-// const data = require("./lib/data");
+const server = require("./lib/server");
+const workers = require("./lib/worker");
 
 //module scaffolding
 const app = {};
 
-// @TODO remove later
-sendTwilioSms("01315789253", "Hello World! Khalid", (err) => {
-  console.log(`This is the error`, err);
-});
+app.init = () => {
+  //start the server
+  server.init();
 
-// module config
-app.config = {
-  port: 3000,
+  // start the worker
+  workers.init();
 };
 
-// const data1 = {
-//   name: "India",
-//   language: ["Bangla", "Hindi", "Urdhu", "Telegu", "English", "Telegu"],
-// };
+app.init();
 
-// data.create("test", "test", data1, (err) => {
-//   console.log(err);
-// });
-
-// data.read("test", "test", (err, data) => {
-//   console.log(err, data);
-// });
-
-// data.update("test", "test", data1, (err) => {
-//   console.log(err);
-// });
-
-// data.delete("test", "test", (err) => {
-//   console.log(err);
-// });
-
-//create server
-app.server = () => {
-  const server = http.createServer(app.handleReqRes);
-  server.listen(environmentToExport.port, () => {
-    console.log("Listening on port: ", environmentToExport.port);
-  });
-};
-
-// handle req res
-app.handleReqRes = handleReqRes;
-
-// run server
-app.server();
+//export the app
+module.exports = app;
